@@ -1,9 +1,11 @@
+package MazeRunner;
+
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.*;
 
 public class HomeGUI extends GUI implements ActionListener {
-  private JLabel introLabel;
+  private JLabel introLabel, infoLabel;
   private JTextField gridSizeTextField;
   private JButton submitButton;
   public HomeGUI() {
@@ -11,6 +13,7 @@ public class HomeGUI extends GUI implements ActionListener {
     Main.setMenuVisibility(false);
 
     introLabel = new JLabel("Welcome to Maze Runner!");
+    infoLabel = new JLabel("Enter the size of the board");
     gridSizeTextField = new JTextField();
     submitButton = new JButton("Play!");
 
@@ -18,6 +21,7 @@ public class HomeGUI extends GUI implements ActionListener {
     submitButton.addActionListener(this);
 
     this.getPanel().add(introLabel);
+    this.getPanel().add(infoLabel);
     this.getPanel().add(gridSizeTextField);
     this.getPanel().add(submitButton);
 
@@ -27,7 +31,19 @@ public class HomeGUI extends GUI implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    this.getPanel().setVisible(false);
+    String message = "Please enter a valid integer";
+    String title = "Invalid Input";
+    try {
+      int gridSize = Integer.parseInt(gridSizeTextField.getText());
+      if (gridSize > 20 || gridSize < 0) {
+        message = "The size you choose is either too large or too small!";
+        throw new Exception();
+      }
+      this.getPanel().setVisible(false);
+    } catch (Exception exception) {
+      JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
+    }
+    
   }
 
 }
