@@ -4,7 +4,7 @@ import javax.swing.*;
 public class Main {
     private static JFrame frame;
     private static JMenuBar menuBar;
-    private static JMenu fileMenu, turnMenu;
+    private static JMenu fileMenu;
     private static GUI UI;
     public static void main(String[] args) {
         initializeMenuBar();
@@ -13,7 +13,7 @@ public class Main {
 
     private static void initializeFrame() {
         frame = new JFrame();
-        // UI = new HomeGUI();
+        UI = new HomeGUI();
         frame.add(UI.getPanel(), BorderLayout.CENTER);
         frame.setJMenuBar(menuBar);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,13 +26,9 @@ public class Main {
     private static void initializeMenuBar() {
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
-        turnMenu = new JMenu("Turn Info");
         fileMenu.add(new JMenuItem("New/Restart"));
-        turnMenu.add(new JMenuItem("Show turns as a notifcation"));
-        turnMenu.add(new JMenuItem("Disable turn info completely"));
 
         menuBar.add(fileMenu);
-        menuBar.add(turnMenu);
 
         for (Component menu : menuBar.getComponents()) {
             for (Component item : ((JMenu) menu).getMenuComponents()) {

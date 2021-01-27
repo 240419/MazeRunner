@@ -52,6 +52,10 @@ public class Maze {
       System.out.println();
   }
 
+  public char[][] getMap() {
+      return this.myMap;
+  }
+
   private boolean isThereAPit(int rowMove, int colMove) {
       if (col + colMove > 20 || col + colMove < 0 ||
               row + rowMove > 20 || row + rowMove < 0  ) {

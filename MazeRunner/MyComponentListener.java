@@ -8,11 +8,11 @@ public class MyComponentListener extends ComponentAdapter {
         JPanel currentPanel = ((JPanel) e.getSource());
         switch (currentPanel.getName()) {
             case "Home":
-            // Main.setGUI(new GameGUI());
+            Main.setGUI(new GameGUI());
             break;
 
             default:
-            // Main.setGUI(new HomeGUI());
+            Main.setGUI(new HomeGUI());
             break;
         }
         currentPanel.removeAll();
