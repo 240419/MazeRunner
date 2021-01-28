@@ -15,6 +15,7 @@ public class MyComponentListener extends ComponentAdapter {
 
             default:
             Main.setGUI(new HomeGUI());
+            Main.getFrame().removeKeyListener(Main.getFrame().getKeyListeners()[0]);
             break;
         }
         currentPanel.removeAll();

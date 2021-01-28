@@ -43,7 +43,5 @@ public class HomeGUI extends GUI implements ActionListener {
     } catch (Exception exception) {
       JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
     }
-    
   }
-
 }

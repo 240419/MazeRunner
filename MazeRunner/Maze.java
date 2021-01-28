@@ -199,7 +199,6 @@ public class Maze {
     }
 
     private boolean canMove(int rowMove, int colMove) {
-        System.out.println(player.row + ", " + player.col);
         if (player.col + colMove >= 20 || player.col + colMove < 0 || player.row + rowMove >= 20 || player.row + rowMove < 0) {
             return false;
         } else if (solution[player.row + rowMove][player.col + colMove] == '*') {
@@ -213,10 +212,6 @@ public class Maze {
             return false;
         }
     }
-
-
-
-
 
     /**
      * Determines if the user reached the end of the maze.
@@ -279,11 +274,10 @@ public class Maze {
                 }
                 moves++;
                 myMap[this.row][this.col] = 'x';
-                printMap(myMap);
                 return true;
             } else {
                 // throw new IllegalArgumentException("ERROR: You cannot move that way");
-                printMap(myMap);
+                // printMap(myMap);
                 return false;
             }
         }
@@ -345,5 +339,9 @@ public class Maze {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

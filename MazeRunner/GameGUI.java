@@ -3,6 +3,7 @@ package MazeRunner;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class GameGUI extends GUI implements KeyListener {
 
@@ -14,7 +15,6 @@ public class GameGUI extends GUI implements KeyListener {
   public GameGUI() {
     super("Game");
     Main.setMenuVisibility(true);
-
     maze = new Maze();
     player = maze.getPlayer();
     mazeLabels = new JLabel[maze.getMap().length][maze.getMap().length];
@@ -68,7 +68,6 @@ public class GameGUI extends GUI implements KeyListener {
 
       case 40: // down
       didMove = player.moveDown();
-      System.out.println(didMove);
       break;
 
       default:
@@ -78,7 +77,6 @@ public class GameGUI extends GUI implements KeyListener {
     if (!didMove) {
       message = "You can't move there! \nPlease also only use the arrow keys to move!";
       title = "Invalid move";
-      System.out.println("DID MOVE: " + didMove);
       JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
 
     } else if (player.didIWin()) {
@@ -106,7 +104,6 @@ public class GameGUI extends GUI implements KeyListener {
   public void keyReleased(KeyEvent e) {
     Main.getFrame().revalidate();
     Main.getFrame().repaint();
-    Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
   }
 
   private void refreshMap() {
