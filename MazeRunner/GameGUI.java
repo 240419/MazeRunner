@@ -52,22 +52,27 @@ public class GameGUI extends GUI implements KeyListener {
   public void keyPressed(KeyEvent e) {
     boolean didMove = false;
     String message, title;
+    String dir = "";
 
     switch (e.getKeyCode()) {
       case 37: // left
       didMove = player.moveLeft();
+      dir = "L";
       break;
 
       case 38: // up
       didMove = player.moveUp();
+      dir = "U";
       break;
 
       case 39: // right
       didMove = player.moveRight();
+      dir = "R";
       break;
 
       case 40: // down
       didMove = player.moveDown();
+      dir = "D";
       break;
 
       default:
@@ -75,9 +80,24 @@ public class GameGUI extends GUI implements KeyListener {
     }
 
     if (!didMove) {
-      message = "You can't move there! \nPlease also only use the arrow keys to move!";
-      title = "Invalid move";
-      JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
+      if (!dir.isEmpty() && maze.isThereAPit(dir)) {
+        message = "Watch out! There's a pit ahead, jump in it?";
+        title = "Mysterious Pit";
+        int result = JOptionPane.showConfirmDialog(Main.getFrame(), message, title, JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.NO_OPTION) {
+          player.jumpOverPit(dir);
+        } else {
+          message = "Oh No! You fell to your death...oof";
+          title = "Fall Damage";
+          JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
+          this.getPanel().setVisible(false);
+        }
+      } else {
+        message = "You can't move there! \nPlease also only use the arrow keys to move!";
+        title = "Invalid move";
+        JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
+      }
+      
 
     } else if (player.didIWin()) {
       message = "You won the game! It took you " + player.getMoves() + " moves to beat the game!";

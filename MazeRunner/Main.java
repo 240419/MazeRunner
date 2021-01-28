@@ -29,6 +29,7 @@ public class Main {
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
         fileMenu.add(new JMenuItem("New/Restart"));
+        fileMenu.add(new JMenuItem("Show cheat code"));
 
         menuBar.add(fileMenu);
 

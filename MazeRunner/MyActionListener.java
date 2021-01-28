@@ -10,27 +10,18 @@ public class MyActionListener extends AbstractAction {
   @Override
     public void actionPerformed(ActionEvent e) {
         JMenuItem menuItem = ((JMenuItem) e.getSource());
-        // switch (menuItem.getName()) {
-        //     case "New/Restart":
-        //     Main.getGUI().getPanel().setVisible(false);
-        //     break;
+        switch (menuItem.getName()) {
+            case "Show cheat code":
+            // ((GameGUI) Main.getGUI()).setTurnInfoChoice(GameGUI.turnInfo.NOTIFICATION);
+            Main.getFrame().revalidate();
+            Main.getFrame().repaint();
+            Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
+            break;
 
-        //     case "Show turns as a notifcation":
-        //     // ((GameGUI) Main.getGUI()).setTurnInfoChoice(GameGUI.turnInfo.NOTIFICATION);
-        //     Main.getFrame().revalidate();
-        //     Main.getFrame().repaint();
-        //     Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
-        //     break;
-
-        //     default:
-        //     // ((GameGUI) Main.getGUI()).setTurnInfoChoice(GameGUI.turnInfo.OFF);
-        //     Main.getFrame().revalidate();
-        //     Main.getFrame().repaint();
-        //     Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
-        //     break;
-        // }
-        Main.getGUI().getPanel().setVisible(false);
-        
+            default:
+            Main.getGUI().getPanel().setVisible(false);
+            break;
+        }        
     }
   
 }

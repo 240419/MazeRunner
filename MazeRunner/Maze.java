@@ -151,8 +151,8 @@ public class Maze {
         for (int i = 14; i < 17; i++) {
             solution[i][0] = '|';
         }
-        // addPits();
-        // printMap(solution);
+        addPits();
+        printMap(solution);
     }
     
     private void addPits(){
@@ -194,7 +194,8 @@ public class Maze {
         } else if(dir.equals("D")) {
             return isThereAPit(1, 0);
         } else {
-            throw new IllegalArgumentException("I didn't understand the direction you entered");
+            return false;
+            // throw new IllegalArgumentException("I didn't understand the direction you entered");
         }
     }
 
@@ -317,13 +318,23 @@ public class Maze {
         public void jumpOverPit(String dir) {
             if(isThereAPit(dir)) {
                 if(dir.equals("R")) {
-                    move(0, 2);
+                    if (!move(0, 2)) {
+                        if (!move(-1, 1)) {
+                            move(1, 1);
+                        }
+                    }
                 } else if (dir.equals("L")) {
-                    move(0, -2);
+                    if (!move(0, -2))
+                        if (!move(-1, -1))
+                            move(1, -1);
                 } else if (dir.equals("U")) {
-                    move(-2, 0);
+                    if (!move(-2, 0))
+                        if (!move(-1, 1))
+                            move(-1, -1);
                 } else if(dir.equals("D")) {
-                    move(2, 0);
+                    if (!move(2, 0))
+                        if (!move(1, 1))
+                            move(1, -1);
                 }
             }
         } 
