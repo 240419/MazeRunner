@@ -9,24 +9,24 @@ package MazeRunner;
  */
 
 public class Maze {
-    private char[][] myMap;
-    private char[][] solution;
-    private int row;
-    private int col;
+    private char[][] myMap, solution;
     private Player player;
-
+    private int size;
     /**
      * Instantiate a new Maze object.
      */
-    public Maze() {
-        row = 1;
-        col = 0;
-        myMap = new char[20][20];
-        solution = new char[20][20];
+    public Maze(int size) {
+        this.size = size;
+        myMap = new char[size][size];
+        solution = new char[size][size];
+        player = new Player(1, 0);
         fillMap(myMap);
         fillMap(solution);
         fillSolution();
-        player = new Player(1, 0);
+    }
+
+    public Maze() {
+        this(20);
     }
 
     private void fillMap(char[][] map) {
@@ -35,7 +35,7 @@ public class Maze {
                 map[i][j] = '.';
             }
         }
-        myMap[row][col] = 'x';
+        myMap[player.row][player.col] = 'x';
     }
 
     /**
@@ -58,37 +58,6 @@ public class Maze {
 
     public char[][] getMap() {
         return this.myMap;
-    }
-
-    private boolean isThereAPit(int rowMove, int colMove) {
-        if (col + colMove > 20 || col + colMove < 0 ||
-                row + rowMove > 20 || row + rowMove < 0  ) {
-            return false;
-        } else if (solution[row + rowMove][col + colMove] == '0') {
-            myMap[row+rowMove][col+colMove] = '0';
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Determines if there is a pit in the direction given.
-     * @param dir the direction given ("R", "L", "U", or "D").
-     * @return true if there is a pit, false otherwise.
-     */
-    public boolean isThereAPit(String dir) {
-        if(dir.equals("R")) {
-            return isThereAPit(0, 1);
-        } else if (dir.equals("L")) {
-            return isThereAPit(0,-1);
-        } else if (dir.equals("U")) {
-            return isThereAPit(-1, 0);
-        } else if(dir.equals("D")) {
-            return isThereAPit(1, 0);
-        } else {
-            throw new IllegalArgumentException("I didn't understand the direction you entered");
-        }
     }
 
     private void fillSolution() {
@@ -182,8 +151,8 @@ public class Maze {
         for (int i = 14; i < 17; i++) {
             solution[i][0] = '|';
         }
-        addPits();
-        //printMap(solution);
+        // addPits();
+        // printMap(solution);
     }
     
     private void addPits(){
@@ -198,44 +167,75 @@ public class Maze {
         solution[18][10] = '0';
     }
 
+
+    private boolean isThereAPit(int rowMove, int colMove) {
+        if (player.col + colMove > 20 || player.col + colMove < 0 || player.row + rowMove > 20 || player.row + rowMove < 0  ) {
+            return false;
+        } else if (solution[player.row + rowMove][player.col + colMove] == '0') {
+            myMap[player.row + rowMove][player.col + colMove] = '0';
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Determines if there is a pit in the direction given.
+     * @param dir the direction given ("R", "L", "U", or "D").
+     * @return true if there is a pit, false otherwise.
+     */
+    public boolean isThereAPit(String dir) {
+        if(dir.equals("R")) {
+            return isThereAPit(0, 1);
+        } else if (dir.equals("L")) {
+              return isThereAPit(0,-1);
+        } else if (dir.equals("U")) {
+            return isThereAPit(-1, 0);
+        } else if(dir.equals("D")) {
+            return isThereAPit(1, 0);
+        } else {
+            throw new IllegalArgumentException("I didn't understand the direction you entered");
+        }
+    }
+
+    private boolean canMove(int rowMove, int colMove) {
+        System.out.println(player.row + ", " + player.col);
+        if (player.col + colMove >= 20 || player.col + colMove < 0 || player.row + rowMove >= 20 || player.row + rowMove < 0) {
+            return false;
+        } else if (solution[player.row + rowMove][player.col + colMove] == '*') {
+            myMap[player.row + rowMove][player.col + colMove] = '*';
+            return true;
+        } else if (solution[player.row + rowMove][player.col + colMove] == '0') {
+            myMap[player.row + rowMove][player.col + colMove] = '*';
+            return false;
+        } else {
+            myMap[player.row + rowMove][player.col + colMove] = '-';
+            return false;
+        }
+    }
+
+
+
+
+
     /**
      * Determines if the user reached the end of the maze.
      * @return true if the user is at the end, false otherwise.
      */
 
     public class Player {
-        private int r, c; 
+        public static final int MAX_MOVES = 100;
+        private int row, col, moves;
         
-        Player(int r, int c) {
-            this.r = r;
-            this.c = c;
+        Player(int row, int col) {
+            this.row = row;
+            this.col = col;
+            this.moves = 0;
         }
 
-        public int getR() {
-            return this.r;
+        public int getMoves() {
+            return this.moves;
         }
-
-        public int getC() {
-            return this.c;
-        }
-
-        private boolean canMove(int rowMove, int colMove) {
-            if (col + colMove > 20 || col + colMove < 0 ||
-                    row + rowMove > 20 || row + rowMove < 0) {
-                return false;
-            }
-            else if (solution[row + rowMove][col + colMove] == '*') {
-                myMap[row+rowMove][col+colMove] = '*';
-                return true;
-            } else if (solution[row + rowMove][col + colMove] == '0') {
-                myMap[row+rowMove][col+colMove] = '*';
-                return false;
-            } else {
-                myMap[row+rowMove][col+colMove] = '-';
-                return false;
-            }
-        }
-    
         /**
          * Determines if your character can move right.
          * @return true if there are no obstacles to the right.
@@ -268,47 +268,52 @@ public class Maze {
             return canMove(1,0);
         }
     
-        private void move(int rowMove, int colMove) {
+        private boolean move(int rowMove, int colMove) {
             if(canMove(rowMove, colMove)) {
-                myMap[row][col] = '*';
-                row += rowMove;
-                col += colMove;
-                if(solution[row][col] == '0') {
-                    throw new IllegalArgumentException("Oh NOOOOO you fell into a pit!");
+                myMap[this.row][this.col] = '*';                
+                this.row += rowMove;
+                this.col += colMove;
+
+                if(solution[this.row][this.col] == '0') {
+                    // throw new IllegalArgumentException("Oh NOOOOO you fell into a pit!");
                 }
-                myMap[row][col] = 'x';
+                moves++;
+                myMap[this.row][this.col] = 'x';
+                printMap(myMap);
+                return true;
             } else {
-                throw new IllegalArgumentException("ERROR: You cannot move that way");
+                // throw new IllegalArgumentException("ERROR: You cannot move that way");
+                printMap(myMap);
+                return false;
             }
-            //printMap(myMap);
         }
     
         /**
          * Moves your character one space right.
          */
-        public void moveRight() {
-            move(0, 1);
+        public boolean moveRight() {
+            return move(0, 1);
         }
     
         /**
          * Moves your character one space left.
          */
-        public void moveLeft() {
-            move(0, -1);
+        public boolean moveLeft() {
+            return move(0, -1);
         }
     
         /**
          * Moves your character one space down.
          */
-        public void moveUp() {
-            move(-1, 0);
+        public boolean moveUp() {
+            return move(-1, 0);
         }
     
         /**
          * Moves your character one space up.
          */
-        public void moveDown() {
-            move(1, 0);
+        public boolean moveDown() {
+            return move(1, 0);
         }
         /**
          * Jumps over a pit in the direction given. Moves your character two spaces.
@@ -330,15 +335,13 @@ public class Maze {
         } 
         
         public boolean didIWin() {
-            if (row == 10 && col == 19) {
+            if (player.row == 10 && player.col == 19) {
                 return true;
             } else {
                 return false;
             }
         }
     }
-
-    
 
     public Player getPlayer() {
         return this.player;
