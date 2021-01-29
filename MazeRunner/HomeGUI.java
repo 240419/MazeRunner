@@ -8,6 +8,7 @@ public class HomeGUI extends GUI implements ActionListener {
   private JLabel introLabel, infoLabel;
   private JTextField gridSizeTextField;
   private JButton submitButton;
+  private int gridSize;
   public HomeGUI() {
     super("Home");
     Main.setMenuVisibility(false);
@@ -34,7 +35,7 @@ public class HomeGUI extends GUI implements ActionListener {
     String message = "Please enter a valid integer";
     String title = "Invalid Input";
     try {
-      int gridSize = Integer.parseInt(gridSizeTextField.getText());
+      gridSize = Integer.parseInt(gridSizeTextField.getText());
       if (gridSize > 20 || gridSize < 0) {
         message = "The size you choose is either too large or too small!";
         throw new Exception();
@@ -43,5 +44,9 @@ public class HomeGUI extends GUI implements ActionListener {
     } catch (Exception exception) {
       JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
     }
+  }
+
+  public int getGridSize() {
+    return this.gridSize;
   }
 }

@@ -3,7 +3,6 @@ package MazeRunner;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class GameGUI extends GUI implements KeyListener {
 
@@ -12,10 +11,10 @@ public class GameGUI extends GUI implements KeyListener {
   private JLabel[][] mazeLabels;
   private JLabel movesLabel;
 
-  public GameGUI() {
+  public GameGUI(int gridSize) {
     super("Game");
     Main.setMenuVisibility(true);
-    maze = new Maze();
+    maze = new Maze(gridSize);
     player = maze.getPlayer();
     mazeLabels = new JLabel[maze.getMap().length][maze.getMap().length];
     movesLabel = new JLabel("Number of moves taken: " + player.getMoves());
@@ -80,7 +79,7 @@ public class GameGUI extends GUI implements KeyListener {
     }
 
     if (!didMove) {
-      if (!dir.isEmpty() && maze.isThereAPit(dir)) {
+      if (!dir.isEmpty() && player.isThereAPit(dir)) {
         message = "Watch out! There's a pit ahead, jump in it?";
         title = "Mysterious Pit";
         int result = JOptionPane.showConfirmDialog(Main.getFrame(), message, title, JOptionPane.YES_NO_OPTION);
@@ -137,7 +136,7 @@ public class GameGUI extends GUI implements KeyListener {
           color = Color.blue;
           break;
 
-          case '-':
+          case '|': case '-':
           color = Color.green;
           break;
 
