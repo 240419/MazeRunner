@@ -10,7 +10,7 @@ public class MyComponentListener extends ComponentAdapter {
         JPanel currentPanel = ((JPanel) e.getSource());
         switch (currentPanel.getName()) {
             case "Home":
-            Main.setGUI(new GameGUI( ((HomeGUI) Main.getGUI()).getGridSize()));
+            Main.setGUI(new GameGUI());
             break;
 
             default:

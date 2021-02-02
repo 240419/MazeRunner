@@ -11,23 +11,17 @@ package MazeRunner;
 public class Maze {
     private char[][] myMap, solution;
     private Player player;
-    private int size;
     
     /**
      * Instantiate a new Maze object.
      */
-    public Maze(int size) {
-        this.size = size;
-        myMap = new char[size][size];
-        solution = new char[size][size];
+    public Maze() {
+        myMap = new char[20][20];
+        solution = new char[20][20];
         player = new Player(1, 0);
         fillMap(myMap);
         fillMap(solution);
         fillSolution();
-    }
-
-    public Maze() {
-        this(20);
     }
 
     private void fillMap(char[][] map) {

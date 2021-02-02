@@ -11,10 +11,10 @@ public class GameGUI extends GUI implements KeyListener {
   private JLabel[][] mazeLabels;
   private JLabel movesLabel;
 
-  public GameGUI(int gridSize) {
+  public GameGUI() {
     super("Game");
     Main.setMenuVisibility(true);
-    maze = new Maze(gridSize);
+    maze = new Maze();
     player = maze.getPlayer();
     mazeLabels = new JLabel[maze.getMap().length][maze.getMap().length];
     movesLabel = new JLabel("Number of moves taken: " + player.getMoves());
@@ -152,5 +152,11 @@ public class GameGUI extends GUI implements KeyListener {
         mazeLabels[i][j].setForeground(color);
       }
     }
+  }
+
+  public void showCheatCode() {
+    String message = "...";
+    String title = "Cheat code";
+    JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
   }
 }

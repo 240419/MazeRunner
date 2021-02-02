@@ -12,10 +12,10 @@ public class MyActionListener extends AbstractAction {
         JMenuItem menuItem = ((JMenuItem) e.getSource());
         switch (menuItem.getName()) {
             case "Show cheat code":
-            // ((GameGUI) Main.getGUI()).setTurnInfoChoice(GameGUI.turnInfo.NOTIFICATION);
             Main.getFrame().revalidate();
             Main.getFrame().repaint();
             Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
+            ((GameGUI) Main.getGUI()).showCheatCode();
             break;
 
             default:
