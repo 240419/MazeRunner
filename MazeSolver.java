@@ -15,21 +15,50 @@ public class MazeSolver {
         nodes = nodeSort(map);
         int[] nodeWeight;
         nodeWeight = new int[nodes.length];
-
+        for (int x = 0; x < nodes.length)
 
 
         return nodes;
     }
 
-    public static Boolean connected(char[][] map, int[] node1, int[]node2){
-        Boolean connected;
+    private static Boolean nxtDegreeConnectHoriz(int[] greaterNode, int[] lesserNode, char[][] map){
+        
+        for(int i = lesserNode[1]; i <= greaterNode[1]; i++){
+            if (map[greaterNode[0]][i] != '*'){
+                return false;
+            } 
+        }
+        
+        return true;
+    }
+    private static Boolean nxtDegreeConnectVert(int[] greaterNode, int[] lesserNode, char[][] map){
+        
+        for(int i = lesserNode[0]; i <= greaterNode[0]; i++){
+            if (map[i][greaterNode[1]] != '*'){
+                return false;
+            }
+        }
+        
+        return true;
+    }
 
-        if ((node1[0] == node2[0]) || (node1[1] == node2[1])){
+    public static Boolean connected(char[][] map, int[] node1, int[]node2){
+        if (node1[0] == node2[0]){
+            if (node1[1] > node2[1]){
+                return nxtDegreeConnectHoriz(node1, node2, map);
+            } else {
+                return nxtDegreeConnectHoriz(node2, node1, map);
+            }
             
+        } else if (node1[1] == node2[1]) {
+            if (node1[0] > node2[0]){
+                return nxtDegreeConnectVert(node1, node2, map);
+            } else {
+                return nxtDegreeConnectVert(node2, node1, map);
+            }
         } else {
             return false;
         }
-        return false;
     }
 
     public static int[][] nodeSort(char[][] map){
