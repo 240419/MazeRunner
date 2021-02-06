@@ -21,8 +21,19 @@ public class MazeSolver {
         int[][] nodeAdjacencies;
         nodeAdjacencies = new int[nodes.length][3];
 
-        for 
+        int temporaryUseIter = 0;
 
+        for (int i = 0; i < nodes.length; i++){
+            temporaryUseIter = 0;
+            for (int x = 0; x < nodes.length; x++){
+                if (i != x){
+                    if (connected(map, nodes[i], nodes[x])){
+                        nodeAdjacencies[i][temporaryUseIter] = x;
+                        temporaryUseIter++;
+                    })
+                }
+            }
+        }
 
     }
 
@@ -56,7 +67,6 @@ public class MazeSolver {
             }
         }
 
-        // REUSING. MAYBE MAKE METHOD?
 
         int[][] nodesTemp;
         int iteratorTemp = 0;
@@ -140,19 +150,22 @@ public class MazeSolver {
                             if (x == 0){
                                 if ((map[x][y+1] == '*')){
                                     horizontal = true;
-                                } else if ((map[x+1][y] == '*')){
+                                }
+                                if ((map[x+1][y] == '*')){
                                     vertical = true;
                                 }
                             } else if (x == 19) {
                                 if ((map[x][y+1] == '*')){
                                     horizontal = true;
-                                } else if ((map[x-1][y] == '*')){
+                                }
+                                if ((map[x-1][y] == '*')){
                                     vertical = true;
                                 }
                             } else {
                                 if ((map[x][y+1] == '*')){
                                     horizontal = true;
-                                } else if ((map[x-1][y] == '*') || (map[x+1][y] == '*')){
+                                }
+                                if ((map[x-1][y] == '*') || (map[x+1][y] == '*')){
                                     vertical = true;
                                 }
                             }
@@ -160,19 +173,22 @@ public class MazeSolver {
                             if (x == 0){
                                 if ((map[x][y-1] == '*')){
                                     horizontal = true;
-                                } else if ((map[x+1][y] == '*')){
+                                }
+                                if ((map[x+1][y] == '*')){
                                     vertical = true;
                                 }
                             } else if (x == 19) {
                                 if ((map[x][y-1] == '*')){
                                     horizontal = true;
-                                } else if ((map[x-1][y] == '*')){
+                                }
+                                if ((map[x-1][y] == '*')){
                                     vertical = true;
                                 }
                             } else {
                                 if ((map[x][y-1] == '*')){
                                     horizontal = true;
-                                } else if ((map[x-1][y] == '*') || (map[x+1][y] == '*')){
+                                }
+                                if ((map[x-1][y] == '*') || (map[x+1][y] == '*')){
                                     vertical = true;
                                 }
                             }
@@ -182,20 +198,23 @@ public class MazeSolver {
                         if (x == 0){
                             if ((map[x][y-1] == '*') || (map[x][y+1] == '*')){
                                 horizontal = true;
-                            } else if ((map[x+1][y] == '*')){
+                            }
+                            if ((map[x+1][y] == '*')){
                                 vertical = true;
                             }
                         } else if (x == 19){
                             if ((map[x][y-1] == '*') || (map[x][y+1] == '*')){
                                 horizontal = true;
-                            } else if ((map[x-1][y] == '*')){
+                            }
+                            if ((map[x-1][y] == '*')){
                                 vertical = true;
                             }
                         } 
                     } else {
                         if ((map[x][y-1] == '*') || (map[x][y+1] == '*')){
                             horizontal = true;
-                        } else if ((map[x-1][y] == '*') || (map[x+1][y] == '*')){
+                        }
+                        if ((map[x-1][y] == '*') || (map[x+1][y] == '*')){
                             vertical = true;
                         }
                     }
@@ -205,8 +224,9 @@ public class MazeSolver {
                 if (vertical && horizontal){
                     nodes[iteration][0] = x;
                     nodes[iteration][1] = y; 
+                    iteration++;
                 }
-                iteration++;
+                
             }
         }
         return arrayResizer(nodes);
