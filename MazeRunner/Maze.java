@@ -1,4 +1,5 @@
 package MazeRunner;
+import java.util.Arrays;
 
 /**
  * This is the Maze class. It has all of the methods and information needed
@@ -10,18 +11,36 @@ package MazeRunner;
 
 public class Maze {
     private char[][] myMap, solution;
+    private MazeSolver mazesolver = new MazeSolver();
+    private char[][] solutionWOPitfalls;
     private Player player;
-    
+    private int size;
     /**
      * Instantiate a new Maze object.
      */
-    public Maze() {
-        myMap = new char[20][20];
-        solution = new char[20][20];
+    public Maze(int size) {
+        this.size = size;
+        
+        myMap = new char[size][size];
+        solution = new char[size][size];
+        
         player = new Player(1, 0);
         fillMap(myMap);
         fillMap(solution);
         fillSolution();
+        int[] starte, ende;
+        starte = new int[2];
+        ende = new int[2];
+        ende[0] = 10;
+        starte[0] = 1;
+        ende[1] = 19;
+        starte[1] = 0;
+        //System.out.println((mazesolver.connected(this.solutionWOPitfalls, starte, ende)));
+        System.out.println(Arrays.deepToString(mazesolver.nodeProcessor(solutionWOPitfalls,starte,ende,mazesolver.nodeProcessor(solutionWOPitfalls,starte,ende, mazesolver.nodeSort(solutionWOPitfalls)))));
+    }
+
+    public Maze() {
+        this(20);
     }
 
     private void fillMap(char[][] map) {
@@ -129,6 +148,12 @@ public class Maze {
         for (int i = 14; i < 17; i++) {
             solution[i][0] = '|';
         }
+        solutionWOPitfalls = new char[20][20];
+        for (int x = 0; x < 20; x++){
+            for (int y = 0; y < 20; y++){
+                solutionWOPitfalls[x][y] = solution[x][y];
+            }
+        }
         addPits();
         printMap(solution);
     }
@@ -145,6 +170,7 @@ public class Maze {
         solution[18][10] = '0';
     }
 
+    
     /**
      * Determines if the user reached the end of the maze.
      * @return true if the user is at the end, false otherwise.
