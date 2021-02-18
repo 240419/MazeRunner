@@ -36,7 +36,9 @@ public class Maze {
         ende[1] = 19;
         starte[1] = 0;
         //System.out.println((mazesolver.connected(this.solutionWOPitfalls, starte, ende)));
-        System.out.println(Arrays.deepToString(mazesolver.nodeProcessor(solutionWOPitfalls,starte,ende,mazesolver.nodeProcessor(solutionWOPitfalls,starte,ende, mazesolver.nodeSort(solutionWOPitfalls)))));
+        for (char[] i : MazeSolver.solver(solutionWOPitfalls, starte, ende, solution)){
+            System.out.println(Arrays.toString(i));
+        }
     }
 
     public Maze() {
