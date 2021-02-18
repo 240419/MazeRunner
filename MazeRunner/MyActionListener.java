@@ -1,6 +1,4 @@
 package MazeRunner;
-
-import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -12,9 +10,9 @@ public class MyActionListener extends AbstractAction {
         JMenuItem menuItem = ((JMenuItem) e.getSource());
         switch (menuItem.getName()) {
             case "Show cheat code":
-            Main.getFrame().revalidate();
-            Main.getFrame().repaint();
-            Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
+            // Main.getFrame().revalidate();
+            // Main.getFrame().repaint();
+            // Main.getFrame().add(Main.getGUI().getPanel(), BorderLayout.CENTER);
             ((GameGUI) Main.getGUI()).showCheatCode();
             break;
 

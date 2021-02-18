@@ -11,38 +11,22 @@ import java.util.Arrays;
 
 public class Maze {
     private char[][] myMap, solution;
-    private MazeSolver mazesolver = new MazeSolver();
     private char[][] solutionWOPitfalls;
     private Player player;
-    private int size;
     /**
      * Instantiate a new Maze object.
      */
-    public Maze(int size) {
-        this.size = size;
-        
-        myMap = new char[size][size];
-        solution = new char[size][size];
+    public Maze() {        
+        myMap = new char[20][20];
+        solution = new char[20][20];
         
         player = new Player(1, 0);
         fillMap(myMap);
         fillMap(solution);
         fillSolution();
-        int[] starte, ende;
-        starte = new int[2];
-        ende = new int[2];
-        ende[0] = 10;
-        starte[0] = 1;
-        ende[1] = 19;
-        starte[1] = 0;
-        //System.out.println((mazesolver.connected(this.solutionWOPitfalls, starte, ende)));
-        for (char[] i : MazeSolver.solver(solutionWOPitfalls, starte, ende, solution)){
-            System.out.println(Arrays.toString(i));
-        }
-    }
-
-    public Maze() {
-        this(20);
+        
+        // System.out.println((MazeSolver.connected(this.solutionWOPitfalls, starte, ende)));
+        // System.out.println(Arrays.deepToString(MazeSolver.nodeProcessor(solutionWOPitfalls,starte,ende,MazeSolver.nodeProcessor(solutionWOPitfalls,starte,ende, MazeSolver.nodeSort(solutionWOPitfalls)))));
     }
 
     private void fillMap(char[][] map) {

@@ -155,8 +155,25 @@ public class GameGUI extends GUI implements KeyListener {
   }
 
   public void showCheatCode() {
-    String message = "...";
-    String title = "Cheat code";
-    JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
+    /*
+    int[] starte, ende;
+        starte = new int[2];
+        ende = new int[2];
+        ende[0] = 10;
+        starte[0] = 1;
+        ende[1] = 19;
+        starte[1] = 0; 
+    */
+    // MazeSolver.solver(solutionWOPitfalls, starte, ende, solution)
+    // int[][] temp = MazeSolver.nodeSort(maze.getSolution());
+    // for (int[] row : temp) {
+    //   for (int col : row) {
+    //     System.out.println("(" + row + ", " + col + ")");
+    //   }
+    // }
+    // // Arrays.deepToString(temp);
+    // String message = "...";
+    // String title = "Cheat code";
+    // JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
   }
 }
