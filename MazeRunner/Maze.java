@@ -19,14 +19,11 @@ public class Maze {
     public Maze() {        
         myMap = new char[20][20];
         solution = new char[20][20];
-        
         player = new Player(1, 0);
+
         fillMap(myMap);
         fillMap(solution);
         fillSolution();
-        
-        // System.out.println((MazeSolver.connected(this.solutionWOPitfalls, starte, ende)));
-        // System.out.println(Arrays.deepToString(MazeSolver.nodeProcessor(solutionWOPitfalls,starte,ende,MazeSolver.nodeProcessor(solutionWOPitfalls,starte,ende, MazeSolver.nodeSort(solutionWOPitfalls)))));
     }
 
     private void fillMap(char[][] map) {
@@ -38,12 +35,19 @@ public class Maze {
         myMap[player.row][player.col] = 'x';
     }
 
-    /**
-     * Display the maze. Dots represent unexplored spaces, x is your current position,
-     * - and | are walls, 0 are pits, and * are explored spaces.
-     */
+    private void addPits() {
+        solution[1][2] = '0';
+        solution[3][7] = '0';
+        solution[3][12] = '0';
+        solution[6][4] = '0';
+        solution[15][4] = '0';
+        solution[9][10] = '0';
+        solution[13][17] = '0';
+        solution[13][15] = '0';
+        solution[18][10] = '0';
+    }
 
-    private void fillSolution() {
+    public void fillSolution() {
         for (int i = 0; i < 6; i++) {
             solution[0][i] = '-';
         }
@@ -144,28 +148,10 @@ public class Maze {
         printMap(solution);
     }
     
-    private void addPits() {
-        solution[1][2] = '0';
-        solution[3][7] = '0';
-        solution[3][12] = '0';
-        solution[6][4] = '0';
-        solution[15][4] = '0';
-        solution[9][10] = '0';
-        solution[13][17] = '0';
-        solution[13][15] = '0';
-        solution[18][10] = '0';
-    }
-
-    
     /**
-     * Determines if the user reached the end of the maze.
-     * @return true if the user is at the end, false otherwise.
+     * Display the maze. Dots represent unexplored spaces, x is your current position,
+     * - and | are walls, 0 are pits, and * are explored spaces.
      */
-
-    public void printMap() {
-        printMap(myMap);
-    }
-
     private void printMap(char[][] map) {
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
@@ -176,9 +162,13 @@ public class Maze {
         System.out.println();
     }
 
-    public char[][] getMap() {
-        return this.myMap;
+    public void printMap() {
+        printMap(myMap);
     }
+
+    public boolean isThereAPit(String dir) {
+		return false;
+	}
 
     public class Player {
         public static final int MAX_MOVES = 100;
@@ -210,7 +200,7 @@ public class Maze {
             if(dir.equals("R")) {
                 return isThereAPit(0, 1);
             } else if (dir.equals("L")) {
-                  return isThereAPit(0,-1);
+                  return isThereAPit(0, -1);
             } else if (dir.equals("U")) {
                 return isThereAPit(-1, 0);
             } else if(dir.equals("D")) {
@@ -234,6 +224,46 @@ public class Maze {
                 return false;
             }
         }
+
+        private boolean move(int rowMove, int colMove) {
+            if(canMove(rowMove, colMove)) {
+                myMap[this.row][this.col] = '*';                
+                this.row += rowMove;
+                this.col += colMove;
+                this.moves++;
+                myMap[this.row][this.col] = 'x';
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Jumps over a pit in the direction given. Moves your character two spaces.
+         * Does nothing if there is no pit in that direction.
+         * @param dir the directions given ("R", "L", "U", or "D").
+         */
+        public void jumpOverPit(String dir) {
+            if(isThereAPit(dir)) {
+                if(dir.equals("R")) {
+                    if (!move(0, 2))
+                        if (!move(-1, 1))
+                            move(1, 1);
+                } else if (dir.equals("L")) {
+                    if (!move(0, -2))
+                        if (!move(-1, -1))
+                            move(1, -1);
+                } else if (dir.equals("U")) {
+                    if (!move(-2, 0))
+                        if (!move(-1, 1))
+                            move(-1, -1);
+                } else if(dir.equals("D")) {
+                    if (!move(2, 0))
+                        if (!move(1, 1))
+                            move(1, -1);
+                }
+            }
+        } 
 
         /**
          * Determines if your character can move right.
@@ -267,19 +297,6 @@ public class Maze {
             return canMove(1,0);
         }
     
-        private boolean move(int rowMove, int colMove) {
-            if(canMove(rowMove, colMove)) {
-                myMap[this.row][this.col] = '*';                
-                this.row += rowMove;
-                this.col += colMove;
-                this.moves++;
-                myMap[this.row][this.col] = 'x';
-                return true;
-            } else {
-                return false;
-            }
-        }
-    
         /**
          * Moves your character one space right.
          */
@@ -295,51 +312,26 @@ public class Maze {
         }
     
         /**
-         * Moves your character one space down.
+         * Moves your character one space up.
          */
         public boolean moveUp() {
             return move(-1, 0);
         }
     
         /**
-         * Moves your character one space up.
+         * Moves your character one space down.
          */
         public boolean moveDown() {
             return move(1, 0);
         }
+
         /**
-         * Jumps over a pit in the direction given. Moves your character two spaces.
-         * Does nothing if there is no pit in that direction.
-         * @param dir the directions given ("R", "L", "U", or "D").
-         */
-        public void jumpOverPit(String dir) {
-            if(isThereAPit(dir)) {
-                if(dir.equals("R")) {
-                    if (!move(0, 2))
-                        if (!move(-1, 1))
-                            move(1, 1);
-                } else if (dir.equals("L")) {
-                    if (!move(0, -2))
-                        if (!move(-1, -1))
-                            move(1, -1);
-                } else if (dir.equals("U")) {
-                    if (!move(-2, 0))
-                        if (!move(-1, 1))
-                            move(-1, -1);
-                } else if(dir.equals("D")) {
-                    if (!move(2, 0))
-                        if (!move(1, 1))
-                            move(1, -1);
-                }
-            }
-        } 
+        * Determines if the user reached the end of the maze.
+        * @return true if the user is at the end, false otherwise.
+        */
         
         public boolean didIWin() {
-            if (this.row == 10 && this.col == 19) {
-                return true;
-            } else {
-                return false;
-            }
+            return (this.row == 10 && this.col == 19)? true : false;
         }
 
         public int getMoves() {
@@ -347,11 +339,21 @@ public class Maze {
         }
     }
 
+    public char[][] getMap() {
+        return this.myMap;
+    }
+
+    public char[][] getSolutionWOPitfalls() {
+        return this.solutionWOPitfalls;
+    }
+
+    public char[][] getSolution() {
+        return this.solution;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
 
-	public boolean isThereAPit(String dir) {
-		return false;
-	}
+	
 }

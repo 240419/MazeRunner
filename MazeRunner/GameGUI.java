@@ -6,10 +6,12 @@ import java.awt.event.*;
 
 public class GameGUI extends GUI implements KeyListener {
 
+  private Dimension frameSize, squareSize;
   private Maze maze;
   private Maze.Player player;
   private JLabel[][] mazeLabels;
   private JLabel movesLabel;
+  
 
   public GameGUI() {
     super("Game");
@@ -18,20 +20,20 @@ public class GameGUI extends GUI implements KeyListener {
     player = maze.getPlayer();
     mazeLabels = new JLabel[maze.getMap().length][maze.getMap().length];
     movesLabel = new JLabel("Number of moves taken: " + player.getMoves());
+    frameSize = Main.getFrame().getSize();
+    squareSize = new Dimension((int) frameSize.getHeight()/mazeLabels.length, (int) frameSize.getHeight()/mazeLabels.length);
     this.getPanel().add(movesLabel);
 
     for (int i = 0; i < mazeLabels.length; i++) {
-      JPanel newPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 2, 2));
-      Dimension frameSize = Main.getFrame().getSize();
-      int height = (int) (frameSize.getHeight())/mazeLabels.length;
+      JPanel newPanel = new JPanel();
       for (int j = 0; j < mazeLabels[i].length; j++) {
         // initialize square
         JLabel square = new JLabel();
-        square.setPreferredSize(new Dimension(height, height));
+        square.setPreferredSize(squareSize);
         mazeLabels[i][j] = square;
         newPanel.add(square);
-        this.getPanel().add(newPanel);
       }
+      this.getPanel().add(newPanel);
     }
 
     refreshMap();
@@ -155,25 +157,29 @@ public class GameGUI extends GUI implements KeyListener {
   }
 
   public void showCheatCode() {
-    /*
-    int[] starte, ende;
-        starte = new int[2];
-        ende = new int[2];
-        ende[0] = 10;
-        starte[0] = 1;
-        ende[1] = 19;
-        starte[1] = 0; 
-    */
-    // MazeSolver.solver(solutionWOPitfalls, starte, ende, solution)
-    // int[][] temp = MazeSolver.nodeSort(maze.getSolution());
-    // for (int[] row : temp) {
-    //   for (int col : row) {
-    //     System.out.println("(" + row + ", " + col + ")");
-    //   }
-    // }
-    // // Arrays.deepToString(temp);
-    // String message = "...";
-    // String title = "Cheat code";
-    // JOptionPane.showMessageDialog(Main.getFrame(), message, title, JOptionPane.OK_OPTION);
+    JLabel[][] solutionLabels = new JLabel[maze.getMap().length][maze.getMap().length];
+    char[][] solutionChars = new char[maze.getMap().length][maze.getMap().length];
+    JPanel cheatCodePanel = new JPanel();
+    int[] start = {1, 0}, end = {10, 19};
+
+    solutionChars = MazeSolver.solver(maze.getSolutionWOPitfalls(), start, end, maze.getSolution());
+    cheatCodePanel.setPreferredSize(new Dimension( (int) (this.getPanel().getWidth()/1.5), (int) (this.getPanel().getHeight()/1.125)));
+    cheatCodePanel.setLayout(new GridLayout(0, 1));
+
+    for (int i = 0; i < solutionChars.length; i++) {
+      JPanel newPanel = new JPanel();
+      for (int j = 0; j < solutionChars[i].length; j++) {
+        JLabel square = new JLabel(String.valueOf(solutionChars[i][j]));
+        square.setPreferredSize(squareSize);
+        if (solutionChars[i][j] == '#') { square.setForeground(Color.blue); }
+        solutionLabels[i][j] = square;
+        newPanel.add(square);
+      }
+      cheatCodePanel.add(newPanel);
+    }
+    
+    // need to "refill" solution because array passed is a reference (we want to restore the solution)
+    maze.fillSolution();
+    JOptionPane.showMessageDialog(Main.getFrame(), cheatCodePanel, "Cheat Code", JOptionPane.PLAIN_MESSAGE);
   }
 }
